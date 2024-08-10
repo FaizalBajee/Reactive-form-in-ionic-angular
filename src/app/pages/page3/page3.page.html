@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-back-button slot="start"></ion-back-button>
+    <ion-title>page3</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form [formGroup]="signUpForm" (ngSubmit)="save()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Gender</ion-label>
+        <ion-select formControlName="gender">
+          <ion-select-option value="Male">Male</ion-select-option>
+          <ion-select-option value="Female">Female</ion-select-option>
+          <ion-select-option value="others">others</ion-select-option>
+
+        </ion-select>
+      </ion-item>
+      <ion-note color="danger" *ngIf="signUpForm.get('gender')?.touched && signUpForm.get('gender')?.invalid">
+        gender require
+      </ion-note>
+      <!-- DOB -->
+      <ion-item>
+        <ion-label position="floating">DOB</ion-label>
+        <ion-input id="open_cal" [readonly]="true" formControlName="DOB"></ion-input>
+        <ion-modal trigger="open_cal" [keepContentsMounted]="true" [initialBreakpoint]="0.65">
+          <ng-template>
+            <ion-datetime presentation="date" (ionChange)="datePick($event)" [showDefaultButtons]="true"></ion-datetime>
+          </ng-template>
+        </ion-modal>
+      </ion-item>
+      <ion-note color="danger" *ngIf="signUpForm.get('DOB')?.touched && signUpForm.get('DOB')?.invalid">
+        DOB require
+      </ion-note>
+      <!-- Time -->
+      <ion-item>
+        <ion-label position="floating">Time</ion-label>
+        <ion-input id="open-time" [readonly]="true" formControlName="time" [value]="formatedTime"></ion-input>
+      </ion-item>
+      <ion-modal trigger="open-time" [keepContentsMounted]="true" [initialBreakpoint]="0.65">
+        <ng-template>
+          <ion-datetime presentation="time" [showDefaultButtons]="true" (ionChange)="timePick($event)"></ion-datetime>
+        </ng-template>
+      </ion-modal>
+      <ion-note color="danger" *ngIf="signUpForm.get('time')?.touched && signUpForm.get('time')?.invalid">
+        require time
+      </ion-note>
+    </ion-list>
+    <ion-button expand="block" type="submit" [disabled]="signUpForm.invalid">Save</ion-button>
+  </form>
+</ion-content>
